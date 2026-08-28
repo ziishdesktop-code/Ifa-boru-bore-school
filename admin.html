@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Ifa Boru Bore School</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="images/logo.jpg">
+</head>
+
+<body>
+
+<header>
+
+<div class="logo-area">
+    <img src="images/logo.jpg" alt="School Logo">
+    <h1>Ifa Boru Bore School</h1>
+</div>
+
+<nav>
+    
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="about.html">
+                About Us
+            </a>
+
+            <a href="academics.html">
+                Academics
+            </a>
+
+            <a href="registration.html">
+                Registration
+            </a>
+
+            <a href="contact.html">
+                Contact
+            </a>
+            
+            <a href="library.html">Library
+
+            </a>
+            <a href="student-dashboard.html">Dashboard
+
+            </a>
+            <a href="ai.html"> AI Assistant
+
+            </a>
+            <a href="news.html"> News
+
+            </a>
+            <a href="about.html"class="btn">Learn More
+
+            </a>
+
+            <a href="teachers.html">teachers</a>
+
+            <a href="gallery.html">gallery</a>
+
+            <a href="results.html">results</a> 
+            <a href="calendar.html">calendar</a>
+            <a href="notification.html"> notification</a>
+</nav>
+
+</header>
+
+<section class="dashboard">
+
+<h2>Admin Dashboard</h2>
+
+<div class="dashboard-card">
+
+    <h3>📋 Student Applications</h3>
+
+    <div id="applicationsContainer">
+        <p>Loading student applications...</p>
+    </div>
+
+</div>
+
+<div class="dashboard-card">
+<h3>👨‍🎓 Student Management</h3>
+<ul>
+<li>View Registered Students</li>
+<li>Approve New Applications</li>
+<li>Edit Student Information</li>
+<li>Delete Student Records</li>
+</ul>
+</div>
+
+<div class="dashboard-card">
+<h3>👨‍🏫 Teacher Management</h3>
+<ul>
+<li>Add Teachers</li>
+<li>Update Teacher Information</li>
+<li>Assign Subjects</li>
+</ul>
+</div>
+
+<div class="dashboard-card">
+<h3>💰 Payments</h3>
+<ul>
+<li>View Uploaded Payment Receipts</li>
+<li>Approve Payments</li>
+<li>Reject Invalid Payments</li>
+</ul>
+</div>
+
+<div class="dashboard-card">
+<h3>📚 Library</h3>
+<ul>
+<li>Upload Notes</li>
+<li>Upload Grade 9–12 Books</li>
+<li>Upload Entrance Exams (2014–2018 E.C.)</li>
+</ul>
+</div>
+
+<div class="dashboard-card">
+<h3>📢 News & Announcements</h3>
+<ul>
+<li>Post School News</li>
+<li>Publish Exam Schedules</li>
+<li>Share Important Notices</li>
+</ul>
+</div>
+
+</section>
+ 
+<button id="adminLogoutButton" type="button">logout</button>
+
+<footer>
+<p>© 2026 Ifa Boru Bore School. All Rights Reserved.</p>
+</footer>
+    
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="supabaseClient.js"></script>
+
+<script src="admin.js"></script>
+
+</body> 
+
+
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Admin Login | Ifa Boru Bore School</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <link
+        rel="icon"
+        href="images/logo.jpg"
+    >
+
+</head>
+
+
+<body>
+
+    <!-- ======================================
+         HEADER
+    ======================================= -->
+
+    <header>
+
+        <div class="logo-area">
+
+            <img
+                src="images/logo.jpg"
+                alt="Ifa Boru Bore School Logo"
+            >
+
+            <h1>
+                Ifa Boru Bore School
+            </h1>
+
+        </div>
+
+    </header>
+
+
+    <!-- ======================================
+         ADMIN LOGIN
+    ======================================= -->
+
+    <main>
+
+        <section class="login-section">
+
+            <div class="login-card">
+
+                <div class="login-logo">
+
+                    <img
+                        src="images/logo.jpg"
+                        alt="School Logo"
+                    >
+
+                </div>
+
+
+                <h2>
+                    🔐 Admin Login
+                </h2>
+
+
+                <p class="login-description">
+                    Sign in to access the Ifa Boru Bore School
+                    administration dashboard.
+                </p>
+
+
+                <!-- ==================================
+                     LOGIN FORM
+                =================================== -->
+
+                <form id="adminLoginForm">
+
+
+                    <!-- EMAIL -->
+
+                    <label for="adminEmail">
+                        Admin Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="adminEmail"
+                        name="email"
+                        placeholder="Enter admin email"
+                        autocomplete="email"
+                        required
+                    >
+
+
+                    <!-- PASSWORD -->
+
+                    <label for="adminPassword">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="adminPassword"
+                        name="password"
+                        placeholder="Enter password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+
+                    <!-- REMEMBER -->
+
+                    <label class="remember-me">
+
+                        <input
+                            type="checkbox"
+                            id="rememberAdmin"
+                        >
+
+                        Remember me
+
+                    </label>
+
+
+                    <!-- ERROR / STATUS -->
+
+                    <div
+                        id="loginMessage"
+                        class="login-message"
+                        role="alert"
+                    ></div>
+
+
+                    <!-- LOGIN BUTTON -->
+
+                    <button
+                        type="submit"
+                        id="adminLoginButton"
+                    >
+                        Login
+                    </button>
+
+
+                </form>
+
+
+                <!-- BACK TO WEBSITE -->
+
+                <p class="back-home">
+
+                    <a href="index.html">
+                        ← Back to School Website
+                    </a>
+
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ======================================
+         FOOTER
+    ======================================= -->
+
+    <footer>
+
+        <p>
+            © 2026 Ifa Boru Bore School.
+            All Rights Reserved.
+        </p>
+
+    </footer>
+
+
+    <!-- ======================================
+         SUPABASE
+    ======================================= -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    ></script>
+    <script
+        src="supabaseClient.js"
+    ></script>
+
+    <script
+        src="admin-login.js"
+    ></script>
+
+
+</body>
+
+</html>

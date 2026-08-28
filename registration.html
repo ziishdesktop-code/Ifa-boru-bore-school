@@ -1,0 +1,474 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Registration | Ifa Boru Bore School</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="images/logo.jpg">
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo-area">
+        <img src="images/logo.jpg" alt="Ifa Boru Bore School Logo">
+        <h1>Ifa Boru Bore School</h1>
+    </div>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="academics.html">Academics</a>
+        <a href="registration.html">Registration</a>
+        <a href="library.html">Library</a>
+        <a href="student-dashboard.html">Dashboard</a>
+        <a href="ai.html">AI Assistant</a>
+        <a href="news.html">News</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+</header>
+
+
+<section class="registration-header">
+
+    <h2>Student Registration Form</h2>
+
+    <p>
+        Please complete all required information carefully before
+        submitting your application.
+    </p>
+
+</section>
+
+
+<section class="registration-form-section">
+
+<form id="registrationForm">
+
+    <!-- ========================= -->
+    <!-- PERSONAL INFORMATION -->
+    <!-- ========================= -->
+
+    <h2>Personal Information</h2>
+
+    <label for="firstName">First Name *</label>
+    <input
+        type="text"
+        id="firstName"
+        name="first_name"
+        placeholder="Enter first name"
+        required
+    >
+
+
+    <label for="fatherName">Father Name *</label>
+    <input
+        type="text"
+        id="fatherName"
+        name="father_name"
+        placeholder="Enter father's name"
+        required
+    >
+
+
+    <label for="grandfatherName">Grandfather Name *</label>
+    <input
+        type="text"
+        id="grandfatherName"
+        name="grandfather_name"
+        placeholder="Enter grandfather's name"
+        required
+    >
+
+
+    <label for="gender">Gender *</label>
+
+    <select id="gender" name="gender" required>
+        <option value="">Select gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+    </select>
+
+
+    <label for="dateOfBirth">Date of Birth *</label>
+
+    <input
+        type="date"
+        id="dateOfBirth"
+        name="date_of_birth"
+        required
+    >
+
+
+    <label for="email">Email Address *</label>
+
+    <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="example@email.com"
+        required
+    >
+
+
+    <label for="studentPhone">Student Phone Number *</label>
+
+    <input
+        type="tel"
+        id="studentPhone"
+        name="student_phone"
+        placeholder="Enter student phone number"
+        required
+    >
+
+
+    <label for="parentPhone">Parent Phone Number *</label>
+
+    <input
+        type="tel"
+        id="parentPhone"
+        name="parent_phone"
+        placeholder="Enter parent phone number"
+        required
+    >
+
+
+    <label for="emergencyPhone">Emergency Contact Number *</label>
+
+    <input
+        type="tel"
+        id="emergencyPhone"
+        name="emergency_phone"
+        placeholder="Emergency contact number"
+        required
+    >
+
+
+    <label for="nationality">Nationality *</label>
+
+    <input
+        type="text"
+        id="nationality"
+        name="nationality"
+        value="Ethiopian"
+        required
+    >
+
+
+    <!-- ========================= -->
+    <!-- ADDRESS -->
+    <!-- ========================= -->
+
+    <h2>Address Information</h2>
+
+
+    <label for="region">Region *</label>
+
+    <input
+        type="text"
+        id="region"
+        name="region"
+        placeholder="Enter region"
+        required
+    >
+
+
+    <label for="zone">Zone *</label>
+
+    <input
+        type="text"
+        id="zone"
+        name="zone"
+        placeholder="Enter zone"
+        required
+    >
+
+
+    <label for="woreda">Woreda *</label>
+
+    <input
+        type="text"
+        id="woreda"
+        name="woreda"
+        placeholder="Enter woreda"
+        required
+    >
+
+
+    <label for="kebele">Kebele *</label>
+ <input
+        type="text"
+        id="kebele"
+        name="kebele"
+        placeholder="Enter kebele"
+        required
+    >
+
+
+    <!-- ========================= -->
+    <!-- ACADEMIC INFORMATION -->
+    <!-- ========================= -->
+
+    <h2>Academic Information</h2>
+
+
+    <label for="applyingGrade">Applying For Grade *</label>
+
+    <select
+        id="applyingGrade"
+        name="applying_grade"
+        required
+    >
+
+        <option value="">Select grade</option>
+
+        <option value="Grade 9">Grade 9</option>
+
+        <option value="Grade 10">Grade 10</option>
+
+        <option value="Grade 11">Grade 11</option>
+
+        <option value="Grade 12">Grade 12</option>
+
+    </select>
+
+
+    <label for="previousSchool">Previous School *</label>
+
+    <input
+        type="text"
+        id="previousSchool"
+        name="previous_school"
+        placeholder="Name of previous school"
+        required
+    >
+
+
+    <label for="previousSchoolAddress">
+        Previous School Address
+    </label>
+
+    <input
+        type="text"
+        id="previousSchoolAddress"
+        name="previous_school_address"
+        placeholder="Previous school address"
+    >
+
+
+    <label for="yearCompleted">
+        Year Completed
+    </label>
+
+    <input
+        type="number"
+        id="yearCompleted"
+        name="year_completed"
+        placeholder="Example: 2017"
+        min="2000"
+        max="2100"
+    >
+
+
+    <label for="averageResult">
+        Average Result (%)
+    </label>
+
+    <input
+        type="number"
+        id="averageResult"
+        name="average_result"
+        placeholder="Example: 85"
+        min="0"
+        max="100"
+        step="0.01"
+    >
+
+
+    <!-- ========================= -->
+    <!-- REQUIRED DOCUMENTS -->
+    <!-- ========================= -->
+
+    <h2>Required Documents</h2>
+
+    <p>
+        Please upload clear and readable copies of the required documents.
+    </p>
+
+
+    <label for="transcript">
+        Transcript / Ministry Result *
+    </label>
+
+    <input
+        type="file"
+        id="transcript"
+        name="transcript"
+        accept="image/*,.pdf"
+        required
+    >
+
+
+    <label for="studentIdFront">
+        Student National ID — Front *
+    </label>
+
+    <input
+        type="file"
+        id="studentIdFront"
+        name="student_id_front"
+        accept="image/*,.pdf"
+        required
+    >
+
+
+    <label for="studentIdBack">
+        Student National ID — Back *
+    </label>
+
+    <input
+        type="file"
+        id="studentIdBack"
+        name="student_id_back"
+        accept="image/*,.pdf"
+        required
+    >
+
+
+    <label for="parentIdFront">
+        Parent ID — Front *
+    </label>
+
+    <input
+        type="file"
+        id="parentIdFront"
+        name="parent_id_front"
+        accept="image/*,.pdf"
+        required
+    >
+
+
+    <label for="parentIdBack">
+        Parent ID — Back *
+    </label>
+
+    <input
+        type="file"
+        id="parentIdBack"
+        name="parent_id_back"
+        accept="image/*,.pdf"
+        required
+    >
+
+
+    <!-- ========================= -->
+    <!-- PAYMENT -->
+    <!-- ========================= -->
+
+    <h2>School Fee Payment</h2>
+
+    <div class="payment-note">
+
+        <p>
+            <strong>Payment Account:</strong>
+        </p>
+
+        <p>
+            10006417*
+        </p>
+
+        <p>
+            After paying the school registration fee,
+            upload the payment receipt below.
+        </p>
+
+    </div>
+
+
+    <label for="paymentReceipt">
+        Upload Payment Receipt *
+    </label>
+
+    <input
+        type="file"
+        id="paymentReceipt"
+        name="payment_receipt"
+        accept="image/*,.pdf"
+        required
+    >
+
+
+    <!-- ========================= -->
+    <!-- DECLARATION -->
+    <!-- ========================= -->
+
+    <h2>Declaration</h2>
+
+    <label class="checkbox-label">
+
+        <input
+            type="checkbox"
+            id="certification"
+            required
+        >
+
+        I certify that all information provided
+        is true and accurate.
+
+    </label>
+    
+    <!-- ========================= -->
+    <!-- SUBMIT -->
+    <!-- ========================= -->
+
+    <button
+        type="submit"
+        class="submit-button"
+    >
+        Submit Registration
+    </button>
+
+
+    <p id="registrationMessage"></p>
+
+</form>
+
+</section>
+
+
+<footer>
+
+    <p>
+        © <span id="year">2026</span>
+        Ifa Boru Bore School.
+        All Rights Reserved.
+    </p>
+
+</footer>
+
+
+<!-- Supabase JavaScript Library -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- Our Supabase connection -->
+
+<script src="supabaseClient.js"></script>
+
+<!--registration system -->
+
+<script src="registration.js"></script>
+
+<!-- Website JavaScript -->
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
