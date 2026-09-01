@@ -690,84 +690,455 @@ console.log(
 
         };
 
+// ======================================
+// SHOW FULL APPLICATION DETAILS
+// ======================================
 
-    // ======================================
-    // SHOW APPLICATION DETAILS
-    // ======================================
+async function showApplicationDetails(application) {
 
-    function showApplicationDetails(
-        application
-    ) {
+    console.log(
+        "Showing full application details:",
+        application.id
+    );
 
-        const details =
-            `
-            APPLICATION DETAILS
+    // --------------------------------------
+    // CREATE SECURE DOCUMENT LINKS
+    // --------------------------------------
 
-            Name:
-            ${application.first_name || ""}
-            ${application.father_name || ""}
-            ${application.grandfather_name || ""}
+    const documents = [
+        {
+            name: "📄 Student Transcript",
+            path: application.transcript_url
+        },
+        {
+            name: "🪪 Student ID - Front",
+            path: application.student_id_front_url
+        },
+        {
+            name: "🪪 Student ID - Back",
+            path: application.student_id_back_url
+        },
+        {
+            name: "🪪 Parent ID - Front",
+            path: application.parent_id_front_url
+        },
+        {
+            name: "🪪 Parent ID - Back",
+            path: application.parent_id_back_url
+        },
+        {
+            name: "💳 Payment Receipt",
+            path: application.payment_receipt_url
+        }
+    ];
 
-            Gender:
-            ${application.gender || "N/A"}
+    const documentLinks = [];
 
-            Date of Birth:
-            ${application.date_of_birth || "N/A"}
+    for (const document of documents) {
 
-            Email:
-            ${application.email || "N/A"}
+        if (!document.path) {
 
-            Student Phone:
-            ${application.student_phone || "N/A"}
+            documentLinks.push(
+                <div class="document-item">
+                    <span>${document.name}</span>
+                    <span>❌ Not uploaded</span>
+                </div>
+            );
 
-            Parent Phone:
-            ${application.parent_phone || "N/A"}
+            continue;
+        }
 
-            Emergency Phone:
-            ${application.emergency_phone || "N/A"}
+        try {
 
-            Nationality:
-            ${application.nationality || "N/A"}
+            const {
+                data,
+                error
+            } = await window.supabaseClient
+                .storage
+                .from("student-documents")
+                .createSignedUrl(
+                    document.path,
+                    3600
+                );
 
-            Region:
-            ${application.region || "N/A"}
+            if (error  !data  !data.signedUrl) {
 
-            Zone:
-            ${application.zone || "N/A"}
+                console.error(
+                    "Could not create document link:",
+                    document.name,
+                    error
+                );
 
-            Woreda:
-            ${application.woreda || "N/A"}
+                documentLinks.push(
+                    <div class="document-item">
+                        <span>${document.name}</span>
+                        <span>⚠️ Cannot open</span>
+                    </div>
+                );
 
-            Kebele:
-            ${application.kebele || "N/A"}
+                continue;
+            }
 
-            Applying Grade:
-            ${application.applying_grade || "N/A"}
+            documentLinks.push(
+                <div class="document-item">
 
-            Previous School:
-            ${application.previous_school || "N/A"}
+                    <span>
+                        ${document.name}
+                    </span>
 
-            Previous School Address:
-            ${application.previous_school_address || "N/A"}
+                    <a
+                        href="${escapeHTML(data.signedUrl)}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="document-button"
+                    >
+                        View Document
+                    </a>
 
-            Year Completed:
-            ${application.year_completed || "N/A"}
+                </div>
+            );
 
-            Average Result:
-            ${application.average_result ?? "N/A"}
+        } catch (error) {
 
-            Application Status:
-            ${application.application_status || "Pending"}
-           Created:
-            ${formatDate(application.created_at)}
-            `;
+            console.error(
+                "Document link error:",
+                error
+            );
 
-
-        alert(details);
-
+            documentLinks.push(
+                <div class="document-item">
+                    <span>${document.name}</span>
+                    <span>⚠️ Error</span>
+                </div>
+            );
+        }
     }
 
 
+    // --------------------------------------
+    // CREATE DETAILS PANEL
+    // --------------------------------------
+
+    const oldModal =
+        document.getElementById(
+            "applicationDetailsModal"
+        );
+
+    if (oldModal) {
+        oldModal.remove();
+    }
+
+
+    const modal =
+        document.createElement("div");
+
+    modal.id =
+        "applicationDetailsModal";
+
+    modal.className =
+        "application-details-modal";
+
+
+    modal.innerHTML = 
+
+        <div class="application-details-box">
+
+            <button
+                type="button"
+                id="closeApplicationDetails"
+                class="close-application-button"
+            >
+                ✕
+            </button>
+
+
+            <h2>
+                📋 Student Application Details
+            </h2>
+
+
+            <!-- ==============================
+                 STUDENT INFORMATION
+            =============================== -->
+                <div class="details-section">
+
+                <h3>👤 Student Information</h3>
+
+                <p>
+                    <strong>Full Name:</strong><br>
+                    ${escapeHTML(
+                        (application.first_name || "") +
+                        " " +
+                        (application.father_name || "") +
+                        " " +
+                        (application.grandfather_name || "")
+                    )}
+                </p>
+
+                <p>
+                    <strong>Gender:</strong>
+                    ${escapeHTML(
+                        application.gender || "N/A"
+                    )}
+                </p>
+
+                <p>
+                    <strong>Date of Birth:</strong>
+                    ${escapeHTML(
+                        application.date_of_birth || "N/A"
+                    )}
+                </p>
+
+                <p>
+                    <strong>Email:</strong>
+                    ${escapeHTML(
+                        application.email || "N/A"
+                    )}
+                </p>
+
+                <p>
+                    <strong>Student Phone:</strong>
+                    ${escapeHTML(
+                        application.student_phone || "N/A"
+                    )}
+                </p>
+
+                <p>
+                    <strong>Parent Phone:</strong>
+                    ${escapeHTML(
+                        application.parent_phone || "N/A"
+                    )}
+                </p>
+
+                <p>
+                    <strong>Emergency Phone:</strong>
+                    ${escapeHTML(
+                        application.emergency_phone || "N/A"
+                    )}
+                </p>
+
+                <p>
+                    <strong>Nationality:</strong>
+                    ${escapeHTML(
+                        application.nationality || "N/A"
+                    )}
+                </p>
+
+            </div>
+
+
+            <!-- ==============================
+                 ADDRESS
+            =============================== -->
+
+            <div class="details-section">
+
+                <h3>📍 Address</h3>
+
+                <p>
+                    <strong>Region:</strong>
+                    ${escapeHTML(
+                        application.region || "N/A"
+                    )}
+                </p>
+
+                <p>
+                    <strong>Zone:</strong>
+                    ${escapeHTML(
+                        application.zone || "N/A"
+                    )}
+                </p>
+
+                <p>
+                    <strong>Woreda:</strong>
+                    ${escapeHTML(
+                        application.woreda || "N/A"
+                    )}
+                </p>
+
+                <p>
+                    <strong>Kebele:</strong>
+                    ${escapeHTML(
+                        application.kebele || "N/A"
+                    )}
+                </p>
+
+            </div>
+
+
+            <!-- ==============================
+                 EDUCATION
+            =============================== -->
+
+            <div class="details-section">
+
+                <h3>🎓 Education</h3>
+
+                <p>
+                    <strong>Applying Grade:</strong>
+                    ${escapeHTML(
+                        application.applying_grade || "N/A"
+                    )}
+                </p>
+
+                <p>
+                    <strong>Previous School:</strong>
+                    ${escapeHTML(
+                        application.previous_school || "N/A"
+                    )}
+                </p>
+
+                <p>
+                    <strong>Previous School Address:</strong>
+                    ${escapeHTML(
+                        application.previous_school_address || "N/A"
+                    )}
+                </p>
+
+                <p>
+                    <strong>Year Completed:</strong>
+                    ${escapeHTML(
+                        application.year_completed ?? "N/A"
+                    )}
+                </p>
+                  <p>
+                    <strong>Average Result:</strong>
+                    ${escapeHTML(
+                        application.average_result ?? "N/A"
+                    )}
+                </p>
+
+            </div>
+
+
+            <!-- ==============================
+                 APPLICATION STATUS
+            =============================== -->
+
+            <div class="details-section">
+
+                <h3>📌 Application Status</h3>
+
+                <p>
+                    <strong>Status:</strong>
+                    ${escapeHTML(
+                        application.application_status ||
+                        "Pending"
+                    )}
+                </p>
+
+                <p>
+                    <strong>Submitted:</strong>
+                    ${escapeHTML(
+                        formatDate(
+                            application.created_at
+                        )
+                    )}
+                </p>
+
+            </div>
+
+
+            <!-- ==============================
+                 DOCUMENTS
+            =============================== -->
+
+            <div class="details-section">
+
+                <h3>📂 Submitted Documents</h3>
+
+                <div class="documents-list">
+
+                    ${documentLinks.join("")}
+
+                </div>
+
+            </div>
+
+
+            <!-- ==============================
+                 CLOSE BUTTON
+            =============================== -->
+
+            <button
+                type="button"
+                id="closeApplicationDetailsBottom"
+                class="close-application-button-bottom"
+            >
+                Close
+            </button>
+
+        </div>
+
+    ;
+
+
+    document.body.appendChild(modal);
+
+
+    // --------------------------------------
+    // CLOSE MODAL
+    // --------------------------------------
+
+    const closeButton =
+        document.getElementById(
+            "closeApplicationDetails"
+        );
+
+    const closeBottomButton =
+        document.getElementById(
+            "closeApplicationDetailsBottom"
+        );
+
+
+    function closeModal() {
+
+        const modalToRemove =
+            document.getElementById(
+                "applicationDetailsModal"
+            );
+
+        if (modalToRemove) {
+            modalToRemove.remove();
+        }
+    }
+
+
+    if (closeButton) {
+
+        closeButton.addEventListener(
+            "click",
+            closeModal
+        );
+    }
+
+
+    if (closeBottomButton) {
+
+        closeBottomButton.addEventListener(
+            "click",
+            closeModal
+        );
+    }
+
+
+    // --------------------------------------
+    // CLOSE WHEN CLICKING OUTSIDE
+    // --------------------------------------
+
+    modal.addEventListener(
+        "click",
+        function (event) {
+
+            if (event.target === modal) {
+                closeModal();
+            }
+
+        }
+    );
+
+}
+   
     // ======================================
     // ESCAPE HTML
     // ======================================
