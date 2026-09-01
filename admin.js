@@ -589,10 +589,23 @@ console.log(
     applications.length
 );
 
+        } catch (error) {
 
-    // ======================================
-    // VIEW APPLICATION
-    // ======================================
+            console.error(
+                "❌ Unexpected error while loading applications:",
+                error
+            );
+
+            applicationsContainer.innerHTML =
+                "<p>Something went wrong while loading applications.</p>";
+        }
+
+    }
+
+
+// ======================================
+// VIEW APPLICATION
+// ======================================
 
     window.viewApplication =
         async function (applicationId) {
@@ -766,7 +779,7 @@ console.log(
             .replace(/</g, "&lt;")
             .replace(/>/g, "&gt;")
             .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;")
+            .replace(/'/g, "&#039;");
     }    // ======================================
     // FORMAT DATE
     // ======================================
@@ -796,3 +809,4 @@ console.log(
         return date.toLocaleString();
 
     }
+});
