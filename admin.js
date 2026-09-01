@@ -796,6 +796,3 @@ console.log(
         return date.toLocaleString();
 
     }
-
-});
-
