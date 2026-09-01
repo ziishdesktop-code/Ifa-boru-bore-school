@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Registration Applications | Ifa Boru Bore School</title>
+    <title>Student Applications | Ifa Boru Bore School</title>
 
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="images/logo.jpg">
@@ -16,15 +16,41 @@
 <header>
 
     <div class="logo-area">
-        <img src="images/logo.jpg" alt="School Logo">
+
+        <img
+            src="images/logo.jpg"
+            alt="Ifa Boru Bore School Logo"
+        >
+
         <h1>Ifa Boru Bore School</h1>
+
     </div>
 
+
     <nav>
-        <a href="index.html">Home</a>
-        <a href="admin.html">Admin Dashboard</a>
-        <a href="admin-applications.html">Applications</a>
-        <a href="notifications.html">Notifications</a>
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="admin.html">
+            Admin Dashboard
+        </a>
+
+        <a href="admin-applications.html">
+            Applications
+        </a>
+
+        <a href="notifications.html">
+            Notifications
+        </a>
+
+        <button
+            type="button"
+            id="adminLogoutButton">
+            Logout
+        </button>
+
     </nav>
 
 </header>
@@ -34,32 +60,39 @@
 
 <section class="dashboard">
 
-    <h2>📋 Student Registration Applications</h2>
+    <h2>
+        📋 Student Registration Applications
+    </h2>
+
 
     <div class="dashboard-card">
 
-        <h3>Applications</h3>
+        <h3>
+            Applications
+        </h3>
 
         <p>
-            New student registration applications will appear here
-            after the secure registration system is connected.
+            All submitted student registration applications
+            will appear below.
         </p>
 
     </div>
 
 
-    <div class="dashboard-card">
+    <!-- ======================================
+         APPLICATIONS CONTAINER
+         ====================================== -->
 
-        <h3>Application Status</h3>
+    <div
+        id="applicationsContainer"
+        class="applications-container">
 
-        <ul>
-            <li>🟡 Pending Applications</li>
-            <li>🟢 Accepted Applications</li>
-            <li>🔴 Rejected Applications</li>
-            <li>📄 Submitted Documents</li>
-        </ul>
+        <p>
+            Loading applications...
+        </p>
 
     </div>
+
 
 </section>
 
@@ -69,15 +102,46 @@
 <footer>
 
     <p>
+
         © <span id="year">2026</span>
+
         Ifa Boru Bore School.
+
         All Rights Reserved.
+
     </p>
 
 </footer>
 
 
+<!-- ======================================
+     SUPABASE
+     ====================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<!-- ======================================
+     SUPABASE CLIENT
+     ====================================== -->
+
+<script src="supabaseClient.js"></script>
+
+
+<!-- ======================================
+     MAIN WEBSITE SCRIPT
+     ====================================== -->
+
 <script src="script.js"></script>
 
+
+<!-- ======================================
+     ADMIN APPLICATION SCRIPT
+     ====================================== -->
+
+<script src="admin.js"></script>
+
+
 </body>
+
 </html>
