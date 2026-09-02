@@ -690,6 +690,7 @@ console.log(
 
         };
 
+
 // ======================================
 // SHOW FULL APPLICATION DETAILS
 // ======================================
@@ -736,17 +737,25 @@ async function showApplicationDetails(application) {
 
     for (const document of documents) {
 
+        // --------------------------------------
+        // DOCUMENT NOT UPLOADED
+        // --------------------------------------
+
         if (!document.path) {
 
-      documentLinks.push(
-    <div class="document-item">
-        <span>${document.name}</span>
-        <span>❌ Not uploaded</span>
-    </div>
-);
+            documentLinks.push(
+                <div class="document-item">
+                    <span>${escapeHTML(document.name)}</span>
+                    <span>❌ Not uploaded</span>
+                </div>
+            );
 
             continue;
         }
+
+        // --------------------------------------
+        // CREATE SIGNED URL
+        // --------------------------------------
 
         try {
 
@@ -761,6 +770,10 @@ async function showApplicationDetails(application) {
                     3600
                 );
 
+            // --------------------------------------
+            // SIGNED URL FAILED
+            // --------------------------------------
+
             if (error  !data  !data.signedUrl) {
 
                 console.error(
@@ -771,7 +784,7 @@ async function showApplicationDetails(application) {
 
                 documentLinks.push(
                     <div class="document-item">
-                        <span>${document.name}</span>
+                        <span>${escapeHTML(document.name)}</span>
                         <span>⚠️ Cannot open</span>
                     </div>
                 );
@@ -779,11 +792,15 @@ async function showApplicationDetails(application) {
                 continue;
             }
 
+            // --------------------------------------
+            // DOCUMENT LINK CREATED
+            // --------------------------------------
+
             documentLinks.push(
                 <div class="document-item">
 
                     <span>
-                        ${document.name}
+                        ${escapeHTML(document.name)}
                     </span>
 
                     <a
@@ -802,17 +819,320 @@ async function showApplicationDetails(application) {
 
             console.error(
                 "Document link error:",
+                document.name,
                 error
             );
 
             documentLinks.push(
                 <div class="document-item">
-                    <span>${document.name}</span>
+                    <span>${escapeHTML(document.name)}</span>
                     <span>⚠️ Error</span>
                 </div>
             );
         }
     }
+
+    // --------------------------------------
+    // CREATE DETAILS MODAL
+    // --------------------------------------
+
+    const modal = document.createElement("div");
+
+    modal.className = "application-modal";
+
+    modal.innerHTML = `
+        <div class="application-details-box">
+[9/2/2026 5:02 AM] Jùn Hǔ: <div class="application-details-header">
+
+                <h2>
+                    Student Application Details
+                </h2>
+
+                <button
+                    type="button"
+                    class="close-application-modal"
+                >
+                    ✕
+                </button>
+
+            </div>
+
+
+            <!-- PERSONAL INFORMATION -->
+
+            <div class="details-section">
+
+                <h3>👤 Personal Information</h3>
+
+                <div class="details-grid">
+
+                    <div class="detail-item">
+                        <strong>First Name:</strong>
+                        <span>
+                            ${escapeHTML(application.first_name || "N/A")}
+                        </span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong>Father Name:</strong>
+                        <span>
+                            ${escapeHTML(application.father_name || "N/A")}
+                        </span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong>Grandfather Name:</strong>
+                        <span>
+                            ${escapeHTML(application.grandfather_name || "N/A")}
+                        </span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong>Gender:</strong>
+                        <span>
+                            ${escapeHTML(application.gender || "N/A")}
+                        </span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong>Date of Birth:</strong>
+                        <span>
+                            ${escapeHTML(application.date_of_birth || "N/A")}
+                        </span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong>Email:</strong>
+                        <span>
+                            ${escapeHTML(application.email || "N/A")}
+                        </span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong>Student Phone:</strong>
+                        <span>
+                            ${escapeHTML(application.student_phone || "N/A")}
+                        </span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong>Parent Phone:</strong>
+                        <span>
+                            ${escapeHTML(application.parent_phone || "N/A")}
+                        </span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong>Emergency Phone:</strong>
+                        <span>
+                            ${escapeHTML(application.emergency_phone || "N/A")}
+                        </span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong>Nationality:</strong>
+                        <span>
+                            ${escapeHTML(application.nationality || "N/A")}
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ADDRESS -->
+
+            <div class="details-section">
+
+                <h3>📍 Address Information</h3>
+
+                <div class="details-grid">
+
+                    <div class="detail-item">
+                        <strong>Region:</strong>
+                        <span>
+                            ${escapeHTML(application.region || "N/A")}
+                        </span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong>Zone:</strong>
+                        <span>
+                            ${escapeHTML(application.zone || "N/A")}
+                        </span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>Woreda:</strong>
+                        <span>
+                            ${escapeHTML(application.woreda || "N/A")}
+                        </span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong>Kebele:</strong>
+                        <span>
+                            ${escapeHTML(application.kebele || "N/A")}
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- EDUCATION -->
+
+            <div class="details-section">
+
+                <h3>🎓 Education Information</h3>
+
+                <div class="details-grid">
+
+                    <div class="detail-item">
+                        <strong>Applying Grade:</strong>
+                        <span>
+                            ${escapeHTML(application.applying_grade || "N/A")}
+                        </span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong>Previous School:</strong>
+                        <span>
+                            ${escapeHTML(application.previous_school || "N/A")}
+                        </span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong>School Address:</strong>
+                        <span>
+                            ${escapeHTML(application.previous_school_address || "N/A")}
+                        </span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong>Year Completed:</strong>
+                        <span>
+                            ${escapeHTML(application.year_completed || "N/A")}
+                        </span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong>Average Result:</strong>
+                        <span>
+                            ${escapeHTML(application.average_result || "N/A")}
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- APPLICATION STATUS -->
+
+            <div class="details-section">
+
+                <h3>📋 Application Status</h3>
+
+                <div class="details-grid">
+
+                    <div class="detail-item">
+                        <strong>Status:</strong>
+                        <span>
+                            ${escapeHTML(application.application_status || "Pending")}
+                        </span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong>Application ID:</strong>
+                        <span>
+                            ${escapeHTML(application.id || "N/A")}
+                        </span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong>Submitted:</strong>
+                        <span>
+                            ${formatDate(application.created_at)}
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- DOCUMENTS -->
+
+            <div class="details-section">
+
+                <h3>📂 Submitted Documents</h3>
+
+                <div class="documents-list">
+
+                    ${documentLinks.join("")}
+
+                </div>
+
+            </div>
+
+
+            <!-- CLOSE BUTTON -->
+
+            <div class="application-details-footer">
+
+                <button
+                    type="button"
+                    class="close-application-modal"
+                >
+                    Close
+                </button>
+
+            </div>
+
+        </div>
+    `;
+
+    // --------------------------------------
+    // ADD MODAL TO PAGE
+    // --------------------------------------
+
+    document.body.appendChild(modal);
+
+    // --------------------------------------
+    // CLOSE MODAL
+    // --------------------------------------
+        const closeButtons =
+        modal.querySelectorAll(
+            ".close-application-modal"
+        );
+
+    closeButtons.forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            modal.remove();
+
+        });
+
+    });
+
+    // --------------------------------------
+    // CLOSE WHEN CLICKING OUTSIDE
+    // --------------------------------------
+
+    modal.addEventListener("click", (event) => {
+
+        if (event.target === modal) {
+
+            modal.remove();
+
+        }
+
+    });
+
+}
 
 
     // --------------------------------------
