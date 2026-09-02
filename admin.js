@@ -738,12 +738,12 @@ async function showApplicationDetails(application) {
 
         if (!document.path) {
 
-            documentLinks.push(
-                <div class="document-item">
-                    <span>${document.name}</span>
-                    <span>❌ Not uploaded</span>
-                </div>
-            );
+      documentLinks.push(
+    <div class="document-item">
+        <span>${document.name}</span>
+        <span>❌ Not uploaded</span>
+    </div>
+);
 
             continue;
         }
