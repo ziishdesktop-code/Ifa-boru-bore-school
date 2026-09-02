@@ -737,10 +737,22 @@ async function showApplicationDetails(application) {
 
     for (const document of documents) {
 
+    // --------------------------------------
+    // DOCUMEN NOT UPLOADED 
+    // --------------------------------------   
     
+    if (!document.path) {
 
+    documentLinks.push(
+        <div class="document-item">
+            <span>${escapeHTML(document.name)}</span>
+            <span>❌ Not uploaded</span>
+        </div>
+    );
+
+    continue;
+}
         
-
         // --------------------------------------
         // CREATE SIGNED URL
         // --------------------------------------
