@@ -21,12 +21,15 @@ document.addEventListener("DOMContentLoaded", async function () {
             "❌ Supabase client is not available."
         );
 
-        window.location.href = "admin-login.html";
+        window.location.href =
+            "admin-login.html";
 
         return;
     }
 
-    console.log("✅ Supabase client is ready.");
+    console.log(
+        "✅ Supabase client is ready."
+    );
 
 
     // ======================================
@@ -38,7 +41,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     try {
 
         sessionData =
-            await window.supabaseClient.auth.getSession();
+            await window.supabaseClient
+                .auth
+                .getSession();
 
     } catch (error) {
 
@@ -108,9 +113,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     // ======================================
     // ADMIN EMAIL
     // ======================================
-    //
-    // CHANGE THIS TO YOUR REAL ADMIN EMAIL
-    //
 
     const ADMIN_EMAIL =
         "ziishdesktop@gmail.com";
@@ -154,7 +156,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 
     // ======================================
-    // GET APPLICATION CONTAINER
+    // GET PAGE ELEMENTS
     // ======================================
 
     const applicationsContainer =
@@ -168,13 +170,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.warn(
             "applicationsContainer was not found."
         );
-
     }
 
-
-    // ======================================
-    // GET LOGOUT BUTTON
-    // ======================================
 
     const logoutButton =
         document.getElementById(
@@ -188,7 +185,6 @@ document.addEventListener("DOMContentLoaded", async function () {
             "click",
             logoutAdmin
         );
-
     }
 
 
@@ -207,7 +203,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         if (logoutButton) {
 
-            logoutButton.disabled = true;
+            logoutButton.disabled =
+                true;
 
             logoutButton.textContent =
                 "Logging out...";
@@ -215,15 +212,14 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 
         try {
+
             const {
                 error
             } =
                 await window.supabaseClient
                     .auth
                     .signOut();
-
-
-            if (error) {
+                    if (error) {
 
                 console.error(
                     "Logout error:",
@@ -257,9 +253,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             window.location.href =
                 "admin-login.html";
 
-        }
 
-        catch (error) {
+        } catch (error) {
 
             console.error(
                 "Unexpected logout error:",
@@ -280,9 +275,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 logoutButton.textContent =
                     "Logout";
             }
-
         }
-
     }
 
 
@@ -298,7 +291,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 
         if (!applicationsContainer) {
-
             return;
         }
 
@@ -314,7 +306,9 @@ document.addEventListener("DOMContentLoaded", async function () {
                 error
             } =
                 await window.supabaseClient
-                    .from("student_applications")
+                    .from(
+                        "student_applications"
+                    )
                     .select("*")
                     .order(
                         "created_at",
@@ -356,7 +350,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 
                 applicationsContainer.innerHTML =
-                    `<p>Could not load applications.</p>`;
+                    "<p>Could not load applications.</p>";
 
                 return;
             }
@@ -377,7 +371,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 
                 applicationsContainer.innerHTML =
-                    `<p>No student applications found.</p>`;
+                    "<p>No student applications found.</p>";
 
                 return;
             }
@@ -391,221 +385,356 @@ document.addEventListener("DOMContentLoaded", async function () {
                 "";
 
 
-    // ------------------------------------------
-    // Display applications
-    // ------------------------------------------
+            // ==================================
+            // DISPLAY APPLICATIONS
+            // ==================================
 
-    applicationsContainer.innerHTML = "";
+            applications.forEach(
+                function (application) {
 
-    applications.forEach(function (application) {
+                    // --------------------------
+                    // APPLICATION CARD
+                    // --------------------------
 
-    // ------------------------------------------
-    // Create application card
-    // ------------------------------------------
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
 
-    const card = document.createElement("div");
 
-    card.className = "application-card";
+                    card.className =
+                        "application-card";
+                        // --------------------------
+                    // STUDENT NAME
+                    // --------------------------
 
+                    const title =
+                        document.createElement(
+                            "h3"
+                        );
 
-    // ------------------------------------------
-    // Student name
-    // ------------------------------------------
 
-    const title = document.createElement("h3");
+                    title.textContent = [
+                        application.first_name,
+                        application.father_name,
+                        application.grandfather_name
+                    ]
+                        .filter(Boolean)
+                        .join(" ") ||
+                        "Unnamed Student";
 
-    title.textContent =
-        (application.first_name || "") + " " +
-        (application.father_name || "") + " " +
-        (application.grandfather_name || "");
 
-    card.appendChild(title);
+                    card.appendChild(
+                        title
+                    );
 
 
-    // ------------------------------------------
-    // Email
-    // ------------------------------------------
+                    // --------------------------
+                    // EMAIL
+                    // --------------------------
 
-    const emailText = document.createElement("p");
+                    const emailText =
+                        document.createElement(
+                            "p"
+                        );
 
-    const emailLabel = document.createElement("strong");
 
-    emailLabel.textContent = "Email: ";
+                    const emailLabel =
+                        document.createElement(
+                            "strong"
+                        );
 
-    emailText.appendChild(emailLabel);
 
-    emailText.appendChild(
-        document.createTextNode(
-            application.email || "N/A"
-        )
-    );
+                    emailLabel.textContent =
+                        "Email: ";
 
-    card.appendChild(emailText);
 
+                    emailText.appendChild(
+                        emailLabel
+                    );
 
-    // ------------------------------------------
-    // Phone
-    // ------------------------------------------
 
-    const phoneText = document.createElement("p");
+                    emailText.appendChild(
+                        document.createTextNode(
+                            application.email ||
+                            "N/A"
+                        )
+                    );
 
-    const phoneLabel = document.createElement("strong");
 
-    phoneLabel.textContent = "Phone: ";
+                    card.appendChild(
+                        emailText
+                    );
 
-    phoneText.appendChild(phoneLabel);
 
-    phoneText.appendChild(
-        document.createTextNode(
-            application.student_phone || "N/A"
-        )
-    );
+                    // --------------------------
+                    // PHONE
+                    // --------------------------
 
-    card.appendChild(phoneText);
+                    const phoneText =
+                        document.createElement(
+                            "p"
+                        );
 
 
-    // ------------------------------------------
-    // Applying Grade
-    // ------------------------------------------
+                    const phoneLabel =
+                        document.createElement(
+                            "strong"
+                        );
 
-    const gradeText = document.createElement("p");
 
-    const gradeLabel = document.createElement("strong");
+                    phoneLabel.textContent =
+                        "Phone: ";
 
-    gradeLabel.textContent = "Applying Grade: ";
 
-    gradeText.appendChild(gradeLabel);
+                    phoneText.appendChild(
+                        phoneLabel
+                    );
 
-    gradeText.appendChild(
-        document.createTextNode(
-            application.applying_grade || "N/A"
-        )
-    );
 
-    card.appendChild(gradeText);
+                    phoneText.appendChild(
+                        document.createTextNode(
+                            application.student_phone ||
+                            "N/A"
+                        )
+                    );
 
 
-    // ------------------------------------------
-    // Previous School
-    // ------------------------------------------
+                    card.appendChild(
+                        phoneText
+                    );
 
-    const schoolText = document.createElement("p");
 
-    const schoolLabel = document.createElement("strong");
+                    // --------------------------
+                    // APPLYING GRADE
+                    // --------------------------
 
-    schoolLabel.textContent = "Previous School: ";
+                    const gradeText =
+                        document.createElement(
+                            "p"
+                        );
 
-    schoolText.appendChild(schoolLabel);
 
-    schoolText.appendChild(
-        document.createTextNode(
-            application.previous_school || "N/A"
-        )
-    );
+                    const gradeLabel =
+                        document.createElement(
+                            "strong"
+                        );
 
-    card.appendChild(schoolText);
 
+                    gradeLabel.textContent =
+                        "Applying Grade: ";
 
-    // ------------------------------------------
-    // Application Status
-    // ------------------------------------------
 
-    const statusText = document.createElement("p");
+                    gradeText.appendChild(
+                        gradeLabel
+                    );
 
-    const statusLabel = document.createElement("strong");
 
-    statusLabel.textContent = "Status: ";
+                    gradeText.appendChild(
+                        document.createTextNode(
+                            application.applying_grade ||
+                            "N/A"
+                        )
+                    );
 
-    statusText.appendChild(statusLabel);
 
-    statusText.appendChild(
-        document.createTextNode(
-            application.application_status || "N/A"
-        )
-    );
+                    card.appendChild(
+                        gradeText
+                    );
 
-    card.appendChild(statusText);
 
+                    // --------------------------
+                    // PREVIOUS SCHOOL
+                    // --------------------------
 
-    // ------------------------------------------
-    // Submitted date
-    // ------------------------------------------
+                    const schoolText =
+                        document.createElement(
+                            "p"
+                        );
 
-    const submittedText = document.createElement("p");
 
-    const submittedLabel = document.createElement("strong");
+                    const schoolLabel =
+                        document.createElement(
+                            "strong"
+                        );
 
-    submittedLabel.textContent = "Submitted: ";
 
-    submittedText.appendChild(submittedLabel);
+                    schoolLabel.textContent =
+                        "Previous School: ";
+                        schoolText.appendChild(
+                        schoolLabel
+                    );
 
-    submittedText.appendChild(
-        document.createTextNode(
-            formatDate(application.created_at)
-        )
-    );
 
-    card.appendChild(submittedText);
+                    schoolText.appendChild(
+                        document.createTextNode(
+                            application.previous_school ||
+                            "N/A"
+                        )
+                    );
 
 
-    // ------------------------------------------
-    // View Application button
-    // ------------------------------------------
+                    card.appendChild(
+                        schoolText
+                    );
 
-    const viewButton = document.createElement("button");
 
-    viewButton.type = "button";
+                    // --------------------------
+                    // APPLICATION STATUS
+                    // --------------------------
 
-    viewButton.className = "view-application-button";
+                    const statusText =
+                        document.createElement(
+                            "p"
+                        );
 
-    viewButton.textContent = "View Application";
 
-    // Store application ID safely
-    viewButton.dataset.id = application.id;
+                    const statusLabel =
+                        document.createElement(
+                            "strong"
+                        );
 
 
-    // Button click
-    viewButton.addEventListener("click", function () {
+                    statusLabel.textContent =
+                        "Status: ";
 
-        viewApplication(application.id);
 
-    });
+                    statusText.appendChild(
+                        statusLabel
+                    );
 
 
-    card.appendChild(viewButton);
+                    statusText.appendChild(
+                        document.createTextNode(
+                            application.application_status ||
+                            "Pending"
+                        )
+                    );
 
 
-    // ------------------------------------------
-    // Add card to page
-    // ------------------------------------------
+                    card.appendChild(
+                        statusText
+                    );
 
-    applicationsContainer.appendChild(card);
 
-});
+                    // --------------------------
+                    // SUBMITTED DATE
+                    // --------------------------
 
+                    const submittedText =
+                        document.createElement(
+                            "p"
+                        );
 
-console.log(
-    "✅ Applications loaded:",
-    applications.length
-);
+
+                    const submittedLabel =
+                        document.createElement(
+                            "strong"
+                        );
+
+
+                    submittedLabel.textContent =
+                        "Submitted: ";
+
+
+                    submittedText.appendChild(
+                        submittedLabel
+                    );
+
+
+                    submittedText.appendChild(
+                        document.createTextNode(
+                            formatDate(
+                                application.created_at
+                            )
+                        )
+                    );
+
+
+                    card.appendChild(
+                        submittedText
+                    );
+
+
+                    // --------------------------
+                    // VIEW APPLICATION BUTTON
+                    // --------------------------
+
+                    const viewButton =
+                        document.createElement(
+                            "button"
+                        );
+
+
+                    viewButton.type =
+                        "button";
+
+
+                    viewButton.className =
+                        "view-application-button";
+
+
+                    viewButton.textContent =
+                        "View Application";
+
+
+                    viewButton.dataset.id =
+                        application.id || "";
+
+
+                    viewButton.addEventListener(
+                        "click",
+                        function () {
+
+                            viewApplication(
+                                application.id
+                            );
+
+                        }
+                    );
+
+
+                    card.appendChild(
+                        viewButton
+                    );
+
+
+                    // --------------------------
+                    // ADD CARD
+                    // --------------------------
+
+                    applicationsContainer.appendChild(
+                        card
+                    );
+
+                }
+            );
+
+
+            console.log(
+                "✅ Applications loaded:",
+                applications.length
+            );
+
 
         } catch (error) {
 
             console.error(
-                "❌ Unexpected error while loading applications:",
+                "Unexpected application loading error:",
                 error
             );
 
-            applicationsContainer.innerHTML =
-                "<p>Something went wrong while loading applications.</p>";
-        }
 
+            if (applicationsContainer) {applicationsContainer.innerHTML =
+                    "<p>Something went wrong while loading applications.</p>";
+            }
+        }
     }
 
 
-// ======================================
-// VIEW APPLICATION
-// ======================================
+    // ======================================
+    // VIEW APPLICATION
+    // ======================================
 
     window.viewApplication =
         async function (applicationId) {
@@ -633,7 +762,9 @@ console.log(
                     error
                 } =
                     await window.supabaseClient
-                        .from("student_applications")
+                        .from(
+                            "student_applications"
+                        )
                         .select("*")
                         .eq(
                             "id",
@@ -668,13 +799,12 @@ console.log(
                 }
 
 
-                showApplicationDetails(
+                await showApplicationDetails(
                     application
                 );
 
-            }
 
-            catch (error) {
+            } catch (error) {
 
                 console.error(
                     "Unexpected application error:",
@@ -685,780 +815,832 @@ console.log(
                 alert(
                     "Something went wrong."
                 );
-
             }
-
         };
 
 
-// ======================================
-// SHOW FULL APPLICATION DETAILS
-// ======================================
+    // ======================================
+    // SHOW FULL APPLICATION DETAILS
+    // ======================================
 
-async function showApplicationDetails(application) {
+    async function showApplicationDetails(
+        application
+    ) {
 
-    console.log(
-        "Showing full application details:",
-        application.id
-    );
+        console.log(
+            "Showing full application details:",
+            application.id
+        );
 
-    // --------------------------------------
-    // CREATE SECURE DOCUMENT LINKS
-    // --------------------------------------
 
-    const documents = [
-        {
-            name: "📄 Student Transcript",
-            path: application.transcript_url
-        },
-        {
-            name: "🪪 Student ID - Front",
-            path: application.student_id_front_url
-        },
-        {
-            name: "🪪 Student ID - Back",
-            path: application.student_id_back_url
-        },
-        {
-            name: "🪪 Parent ID - Front",
-            path: application.parent_id_front_url
-        },
-        {
-            name: "🪪 Parent ID - Back",
-            path: application.parent_id_back_url
-        },
-        {
-            name: "💳 Payment Receipt",
-            path: application.payment_receipt_url
-        }
-    ];
-
-    const documentLinks = [];
-
-    for (const document of documents) {
-
-    // --------------------------------------
-    // DOCUMEN NOT UPLOADED 
-    // --------------------------------------   
-    
-    if (!document.path) {
-
-    documentLinks.push(
-        <div class="document-item">
-            <span>${escapeHTML(document.name)}</span>
-            <span>❌ Not uploaded</span>
-        </div>
-    );
-
-    continue;
-}
-        
         // --------------------------------------
-        // CREATE SIGNED URL
+        // DOCUMENT LIST
         // --------------------------------------
 
-        try {
+        const documents = [
 
-            const {
-                data,
-                error
-            } = await window.supabaseClient
-                .storage
-                .from("student-documents")
-                .createSignedUrl(
-                    document.path,
-                    3600
-                );
+            {
+                name:
+                    "📄 Student Transcript",
 
-            // --------------------------------------
-            // SIGNED URL FAILED
-            // --------------------------------------
+                path:
+                    application.transcript_url
+            },
 
-            if (error  !data  !data.signedUrl) {
+            {
+                name:
+                    "🪪 Student ID - Front",
 
-                console.error(
-                    "Could not create document link:",
-                    document.name,
-                    error
-                );
+                path:
+                    application.student_id_front_url
+            },
 
-                documentLinks.push(
+            {
+                name:
+                    "🪪 Student ID - Back",
+
+                path:
+                    application.student_id_back_url
+            },
+
+            {
+                name:
+                    "🪪 Parent ID - Front",
+
+                path:
+                    application.parent_id_front_url
+            },
+
+            {
+                name:
+                    "🪪 Parent ID - Back",
+
+                path:
+                    application.parent_id_back_url
+            },
+
+            {
+                name:
+                    "💳 Payment Receipt",
+
+                path:
+                    application.payment_receipt_url
+            }
+
+        ];
+
+
+        const documentLinks = [];
+
+
+        // --------------------------------------
+        // CREATE SECURE DOCUMENT LINKS
+        // --------------------------------------
+
+        for (
+            const document of documents
+        ) {
+
+            // ----------------------------------
+            // NOT UPLOADED
+            // ----------------------------------
+
+            if (!document.path) {
+
+                documentLinks.push(`
+
                     <div class="document-item">
-                        <span>${escapeHTML(document.name)}</span>
-                        <span>⚠️ Cannot open</span>
+                    <span>
+                            ${escapeHTML(
+                                document.name
+                            )}
+                        </span>
+
+                        <span>
+                            ❌ Not uploaded
+                        </span>
+
                     </div>
+
                 );
 
                 continue;
             }
 
-            // --------------------------------------
-            // DOCUMENT LINK CREATED
-            // --------------------------------------
 
-            documentLinks.push(
-                <div class="document-item">
+            // ----------------------------------
+            // CREATE SIGNED URL
+            // ----------------------------------
 
-                    <span>
-                        ${escapeHTML(document.name)}
-                    </span>
+            try {
 
-                    <a
-                        href="${escapeHTML(data.signedUrl)}"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="document-button"
+                const {
+                    data,
+                    error
+                } =
+                    await window.supabaseClient
+                        .storage
+                        .from(
+                            "student-documents"
+                        )
+                        .createSignedUrl(
+                            document.path,
+                            3600
+                        );
+
+
+                // ----------------------------------
+                // SIGNED URL ERROR
+                // ----------------------------------
+
+                if (
+                    error ||
+                    !data ||
+                    !data.signedUrl
+                ) {
+
+                    console.error(
+                        "Could not create document link:",
+                        document.name,
+                        error
+                    );
+
+
+                    documentLinks.push(
+
+                        <div class="document-item">
+
+                            <span>
+                                ${escapeHTML(
+                                    document.name
+                                )}
+                            </span>
+
+                            <span>
+                                ⚠️ Cannot open
+                            </span>
+
+                        </div>
+
+                    );
+
+
+                    continue;
+                }
+
+
+                // ----------------------------------
+                // DOCUMENT AVAILABLE
+                // ----------------------------------
+
+                documentLinks.push(
+
+                    <div class="document-item">
+
+                        <span>
+                            ${escapeHTML(
+                                document.name
+                            )}
+                        </span>
+
+                        <a
+                            href="${escapeHTML(
+                                data.signedUrl
+                            )}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="document-button"
+                        >
+                            View Document
+                        </a>
+
+                    </div>
+
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Document link error:",
+                    document.name,
+                    error
+                );
+
+
+                documentLinks.push(
+
+                    <div class="document-item">
+
+                        <span>
+                            ${escapeHTML(
+                                document.name
+                            )}
+                        </span>
+
+                        <span>
+                            ⚠️ Error
+                        </span>
+
+                    </div>
+
+                );
+            }
+        }
+
+
+        // ======================================
+        // REMOVE OLD MODAL
+        // ======================================
+
+        const oldModal =
+            document.querySelector(
+                ".application-modal"
+            );
+
+
+        if (oldModal) {
+
+            oldModal.remove();
+        }
+
+
+        // ======================================
+        // CREATE MODAL
+        // ======================================
+
+        const modal =
+            document.createElement(
+                "div"
+            );
+
+
+        modal.className =
+            "application-modal";
+
+
+        modal.innerHTML =
+        <div class="application-details-box">
+
+
+                <!-- HEADER -->
+
+                <div class="application-details-header">
+
+                    <h2>
+                        Student Application Details
+                    </h2>
+
+                    <button
+                        type="button"
+                        class="close-application-modal"
+                        aria-label="Close"
                     >
-                        View Document
-                    </a>
-
-                </div>
-            );
-
-        } catch (error) {
-
-            console.error(
-                "Document link error:",
-                document.name,
-                error
-            );
-
-            documentLinks.push(
-                <div class="document-item">
-                    <span>${escapeHTML(document.name)}</span>
-                    <span>⚠️ Error</span>
-                </div>
-            );
-        }
-    }
-
-    // --------------------------------------
-    // CREATE DETAILS MODAL
-    // --------------------------------------
-
-    const modal = document.createElement("div");
-
-    modal.className = "application-modal";
-
-    modal.innerHTML = `
-        <div class="application-details-box">
-[9/2/2026 5:02 AM] Jùn Hǔ: <div class="application-details-header">
-
-                <h2>
-                    Student Application Details
-                </h2>
-
-                <button
-                    type="button"
-                    class="close-application-modal"
-                >
-                    ✕
-                </button>
-
-            </div>
-
-
-            <!-- PERSONAL INFORMATION -->
-
-            <div class="details-section">
-
-                <h3>👤 Personal Information</h3>
-
-                <div class="details-grid">
-
-                    <div class="detail-item">
-                        <strong>First Name:</strong>
-                        <span>
-                            ${escapeHTML(application.first_name || "N/A")}
-                        </span>
-                    </div>
-
-                    <div class="detail-item">
-                        <strong>Father Name:</strong>
-                        <span>
-                            ${escapeHTML(application.father_name || "N/A")}
-                        </span>
-                    </div>
-
-                    <div class="detail-item">
-                        <strong>Grandfather Name:</strong>
-                        <span>
-                            ${escapeHTML(application.grandfather_name || "N/A")}
-                        </span>
-                    </div>
-
-                    <div class="detail-item">
-                        <strong>Gender:</strong>
-                        <span>
-                            ${escapeHTML(application.gender || "N/A")}
-                        </span>
-                    </div>
-
-                    <div class="detail-item">
-                        <strong>Date of Birth:</strong>
-                        <span>
-                            ${escapeHTML(application.date_of_birth || "N/A")}
-                        </span>
-                    </div>
-
-                    <div class="detail-item">
-                        <strong>Email:</strong>
-                        <span>
-                            ${escapeHTML(application.email || "N/A")}
-                        </span>
-                    </div>
-
-                    <div class="detail-item">
-                        <strong>Student Phone:</strong>
-                        <span>
-                            ${escapeHTML(application.student_phone || "N/A")}
-                        </span>
-                    </div>
-
-                    <div class="detail-item">
-                        <strong>Parent Phone:</strong>
-                        <span>
-                            ${escapeHTML(application.parent_phone || "N/A")}
-                        </span>
-                    </div>
-
-                    <div class="detail-item">
-                        <strong>Emergency Phone:</strong>
-                        <span>
-                            ${escapeHTML(application.emergency_phone || "N/A")}
-                        </span>
-                    </div>
-
-                    <div class="detail-item">
-                        <strong>Nationality:</strong>
-                        <span>
-                            ${escapeHTML(application.nationality || "N/A")}
-                        </span>
-                    </div>
+                        ✕
+                    </button>
 
                 </div>
 
-            </div>
 
+                <!-- PERSONAL INFORMATION -->
 
-            <!-- ADDRESS -->
-
-            <div class="details-section">
-
-                <h3>📍 Address Information</h3>
-
-                <div class="details-grid">
-
-                    <div class="detail-item">
-                        <strong>Region:</strong>
-                        <span>
-                            ${escapeHTML(application.region || "N/A")}
-                        </span>
-                    </div>
-
-                    <div class="detail-item">
-                        <strong>Zone:</strong>
-                        <span>
-                            ${escapeHTML(application.zone || "N/A")}
-                        </span>
-                    </div>
-                    <div class="detail-item">
-                        <strong>Woreda:</strong>
-                        <span>
-                            ${escapeHTML(application.woreda || "N/A")}
-                        </span>
-                    </div>
-
-                    <div class="detail-item">
-                        <strong>Kebele:</strong>
-                        <span>
-                            ${escapeHTML(application.kebele || "N/A")}
-                        </span>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- EDUCATION -->
-
-            <div class="details-section">
-
-                <h3>🎓 Education Information</h3>
-
-                <div class="details-grid">
-
-                    <div class="detail-item">
-                        <strong>Applying Grade:</strong>
-                        <span>
-                            ${escapeHTML(application.applying_grade || "N/A")}
-                        </span>
-                    </div>
-
-                    <div class="detail-item">
-                        <strong>Previous School:</strong>
-                        <span>
-                            ${escapeHTML(application.previous_school || "N/A")}
-                        </span>
-                    </div>
-
-                    <div class="detail-item">
-                        <strong>School Address:</strong>
-                        <span>
-                            ${escapeHTML(application.previous_school_address || "N/A")}
-                        </span>
-                    </div>
-
-                    <div class="detail-item">
-                        <strong>Year Completed:</strong>
-                        <span>
-                            ${escapeHTML(application.year_completed || "N/A")}
-                        </span>
-                    </div>
-
-                    <div class="detail-item">
-                        <strong>Average Result:</strong>
-                        <span>
-                            ${escapeHTML(application.average_result || "N/A")}
-                        </span>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- APPLICATION STATUS -->
-
-            <div class="details-section">
-
-                <h3>📋 Application Status</h3>
-
-                <div class="details-grid">
-
-                    <div class="detail-item">
-                        <strong>Status:</strong>
-                        <span>
-                            ${escapeHTML(application.application_status || "Pending")}
-                        </span>
-                    </div>
-
-                    <div class="detail-item">
-                        <strong>Application ID:</strong>
-                        <span>
-                            ${escapeHTML(application.id || "N/A")}
-                        </span>
-                    </div>
-
-                    <div class="detail-item">
-                        <strong>Submitted:</strong>
-                        <span>
-                            ${formatDate(application.created_at)}
-                        </span>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- DOCUMENTS -->
-
-            <div class="details-section">
-
-                <h3>📂 Submitted Documents</h3>
-
-                <div class="documents-list">
-
-                    ${documentLinks.join("")}
-
-                </div>
-
-            </div>
-
-
-            <!-- CLOSE BUTTON -->
-
-            <div class="application-details-footer">
-
-                <button
-                    type="button"
-                    class="close-application-modal"
-                >
-                    Close
-                </button>
-
-            </div>
-
-        </div>
-    `;
-
-    // --------------------------------------
-    // ADD MODAL TO PAGE
-    // --------------------------------------
-
-    document.body.appendChild(modal);
-
-    // --------------------------------------
-    // CLOSE MODAL
-    // --------------------------------------
-        const closeButtons =
-        modal.querySelectorAll(
-            ".close-application-modal"
-        );
-
-    closeButtons.forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            modal.remove();
-
-        });
-
-    });
-
-    // --------------------------------------
-    // CLOSE WHEN CLICKING OUTSIDE
-    // --------------------------------------
-
-    modal.addEventListener("click", (event) => {
-
-        if (event.target === modal) {
-
-            modal.remove();
-
-        }
-
-    });
-
-}
-
-
-    // --------------------------------------
-    // CREATE DETAILS PANEL
-    // --------------------------------------
-
-    const oldModal =
-        document.getElementById(
-            "applicationDetailsModal"
-        );
-
-    if (oldModal) {
-        oldModal.remove();
-    }
-
-
-    const modal =
-        document.createElement("div");
-
-    modal.id =
-        "applicationDetailsModal";
-
-    modal.className =
-        "application-details-modal";
-
-
-    modal.innerHTML = 
-
-        <div class="application-details-box">
-
-            <button
-                type="button"
-                id="closeApplicationDetails"
-                class="close-application-button"
-            >
-                ✕
-            </button>
-
-
-            <h2>
-                📋 Student Application Details
-            </h2>
-
-
-            <!-- ==============================
-                 STUDENT INFORMATION
-            =============================== -->
                 <div class="details-section">
 
-                <h3>👤 Student Information</h3>
-
-                <p>
-                    <strong>Full Name:</strong><br>
-                    ${escapeHTML(
-                        (application.first_name || "") +
-                        " " +
-                        (application.father_name || "") +
-                        " " +
-                        (application.grandfather_name || "")
-                    )}
-                </p>
-
-                <p>
-                    <strong>Gender:</strong>
-                    ${escapeHTML(
-                        application.gender || "N/A"
-                    )}
-                </p>
-
-                <p>
-                    <strong>Date of Birth:</strong>
-                    ${escapeHTML(
-                        application.date_of_birth || "N/A"
-                    )}
-                </p>
-
-                <p>
-                    <strong>Email:</strong>
-                    ${escapeHTML(
-                        application.email || "N/A"
-                    )}
-                </p>
-
-                <p>
-                    <strong>Student Phone:</strong>
-                    ${escapeHTML(
-                        application.student_phone || "N/A"
-                    )}
-                </p>
-
-                <p>
-                    <strong>Parent Phone:</strong>
-                    ${escapeHTML(
-                        application.parent_phone || "N/A"
-                    )}
-                </p>
-
-                <p>
-                    <strong>Emergency Phone:</strong>
-                    ${escapeHTML(
-                        application.emergency_phone || "N/A"
-                    )}
-                </p>
-
-                <p>
-                    <strong>Nationality:</strong>
-                    ${escapeHTML(
-                        application.nationality || "N/A"
-                    )}
-                </p>
-
-            </div>
+                    <h3>
+                        👤 Personal Information
+                    </h3>
 
 
-            <!-- ==============================
-                 ADDRESS
-            =============================== -->
-
-            <div class="details-section">
-
-                <h3>📍 Address</h3>
-
-                <p>
-                    <strong>Region:</strong>
-                    ${escapeHTML(
-                        application.region || "N/A"
-                    )}
-                </p>
-
-                <p>
-                    <strong>Zone:</strong>
-                    ${escapeHTML(
-                        application.zone || "N/A"
-                    )}
-                </p>
-
-                <p>
-                    <strong>Woreda:</strong>
-                    ${escapeHTML(
-                        application.woreda || "N/A"
-                    )}
-                </p>
-
-                <p>
-                    <strong>Kebele:</strong>
-                    ${escapeHTML(
-                        application.kebele || "N/A"
-                    )}
-                </p>
-
-            </div>
+                    <div class="details-grid">
 
 
-            <!-- ==============================
-                 EDUCATION
-            =============================== -->
+                        <div class="detail-item">
 
-            <div class="details-section">
+                            <strong>
+                                First Name:
+                            </strong>
 
-                <h3>🎓 Education</h3>
+                            <span>
+                                ${escapeHTML(
+                                    application.first_name ||
+                                    "N/A"
+                                )}
+                            </span>
 
-                <p>
-                    <strong>Applying Grade:</strong>
-                    ${escapeHTML(
-                        application.applying_grade || "N/A"
-                    )}
-                </p>
-
-                <p>
-                    <strong>Previous School:</strong>
-                    ${escapeHTML(
-                        application.previous_school || "N/A"
-                    )}
-                </p>
-
-                <p>
-                    <strong>Previous School Address:</strong>
-                    ${escapeHTML(
-                        application.previous_school_address || "N/A"
-                    )}
-                </p>
-
-                <p>
-                    <strong>Year Completed:</strong>
-                    ${escapeHTML(
-                        application.year_completed ?? "N/A"
-                    )}
-                </p>
-                  <p>
-                    <strong>Average Result:</strong>
-                    ${escapeHTML(
-                        application.average_result ?? "N/A"
-                    )}
-                </p>
-
-            </div>
+                        </div>
 
 
-            <!-- ==============================
-                 APPLICATION STATUS
-            =============================== -->
+                        <div class="detail-item">
 
-            <div class="details-section">
+                            <strong>
+                                Father Name:
+                            </strong>
 
-                <h3>📌 Application Status</h3>
+                            <span>
+                                ${escapeHTML(
+                                    application.father_name ||
+                                    "N/A"
+                                )}
+                            </span>
 
-                <p>
-                    <strong>Status:</strong>
-                    ${escapeHTML(
-                        application.application_status ||
-                        "Pending"
-                    )}
-                </p>
-
-                <p>
-                    <strong>Submitted:</strong>
-                    ${escapeHTML(
-                        formatDate(
-                            application.created_at
-                        )
-                    )}
-                </p>
-
-            </div>
+                        </div>
 
 
-            <!-- ==============================
-                 DOCUMENTS
-            =============================== -->
+                        <div class="detail-item">
 
-            <div class="details-section">
+                            <strong>
+                                Grandfather Name:
+                            </strong>
 
-                <h3>📂 Submitted Documents</h3>
+                            <span>
+                                ${escapeHTML(
+                                    application.grandfather_name ||
+                                    "N/A"
+                                )}
+                            </span>
 
-                <div class="documents-list">
+                        </div>
 
-                    ${documentLinks.join("")}
+
+                        <div class="detail-item">
+
+                            <strong>
+                                Gender:
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    application.gender ||
+                                    "N/A"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail-item">
+
+                            <strong>
+                                Date of Birth:
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    application.date_of_birth ||
+                                    "N/A"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail-item">
+
+                            <strong>
+                                Email:
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    application.email ||
+                                    "N/A"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail-item">
+
+                            <strong>
+                                Student Phone:
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    application.student_phone ||
+                                    "N/A"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail-item">
+                        <strong>
+                                Parent Phone:
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    application.parent_phone ||
+                                    "N/A"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail-item">
+
+                            <strong>
+                                Emergency Phone:
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    application.emergency_phone ||
+                                    "N/A"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail-item">
+
+                            <strong>
+                                Nationality:
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    application.nationality ||
+                                    "N/A"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                    </div>
 
                 </div>
 
+
+                <!-- ADDRESS INFORMATION -->
+
+                <div class="details-section">
+
+                    <h3>
+                        📍 Address Information
+                    </h3>
+
+
+                    <div class="details-grid">
+
+
+                        <div class="detail-item">
+
+                            <strong>
+                                Region:
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    application.region ||
+                                    "N/A"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail-item">
+
+                            <strong>
+                                Zone:
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    application.zone ||
+                                    "N/A"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail-item">
+
+                            <strong>
+                                Woreda:
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    application.woreda ||
+                                    "N/A"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail-item">
+
+                            <strong>
+                                Kebele:
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    application.kebele ||
+                                    "N/A"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- EDUCATION INFORMATION -->
+
+                <div class="details-section">
+
+                    <h3>
+                        🎓 Education Information
+                    </h3>
+
+
+                    <div class="details-grid">
+
+
+                        <div class="detail-item">
+
+                            <strong>
+                                Applying Grade:
+                            </strong>
+                            <span>
+                                ${escapeHTML(
+                                    application.applying_grade ||
+                                    "N/A"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail-item">
+
+                            <strong>
+                                Previous School:
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    application.previous_school ||
+                                    "N/A"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail-item">
+
+                            <strong>
+                                School Address:
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    application.previous_school_address ||
+                                    "N/A"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail-item">
+
+                            <strong>
+                                Year Completed:
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    application.year_completed ||
+                                    "N/A"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail-item">
+
+                            <strong>
+                                Average Result:
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    application.average_result ??
+                                    "N/A"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- APPLICATION STATUS -->
+
+                <div class="details-section">
+
+                    <h3>
+                        📋 Application Status
+                    </h3>
+
+
+                    <div class="details-grid">
+
+
+                        <div class="detail-item">
+
+                            <strong>
+                                Status:
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    application.application_status ||
+                                    "Pending"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail-item">
+
+                            <strong>
+                                Application ID:
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    application.id ||
+                                    "N/A"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail-item">
+
+                            <strong>
+                                Submitted:
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    formatDate(
+                                        application.created_at
+                                    )
+                                )}
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- SUBMITTED DOCUMENTS -->
+
+                <div class="details-section">
+                <h3>
+                        📂 Submitted Documents
+                    </h3>
+
+
+                    <div class="documents-list">
+
+                        ${documentLinks.join("")}
+
+                    </div>
+
+                </div>
+
+
+                <!-- FOOTER -->
+
+                <div class="application-details-footer">
+
+                    <button
+                        type="button"
+                        class="close-application-modal"
+                    >
+                        Close
+                    </button>
+
+                </div>
+
+
             </div>
 
-
-            <!-- ==============================
-                 CLOSE BUTTON
-            =============================== -->
-
-            <button
-                type="button"
-                id="closeApplicationDetailsBottom"
-                class="close-application-button-bottom"
-            >
-                Close
-            </button>
-
-        </div>
-
-    ;
+        `);
 
 
-    document.body.appendChild(modal);
+        // ======================================
+        // ADD MODAL TO PAGE
+        // ======================================
 
-
-    // --------------------------------------
-    // CLOSE MODAL
-    // --------------------------------------
-
-    const closeButton =
-        document.getElementById(
-            "closeApplicationDetails"
-        );
-
-    const closeBottomButton =
-        document.getElementById(
-            "closeApplicationDetailsBottom"
+        document.body.appendChild(
+            modal
         );
 
 
-    function closeModal() {
+        // ======================================
+        // CLOSE BUTTONS
+        // ======================================
 
-        const modalToRemove =
-            document.getElementById(
-                "applicationDetailsModal"
+        const closeButtons =
+            modal.querySelectorAll(
+                ".close-application-modal"
             );
 
-        if (modalToRemove) {
-            modalToRemove.remove();
-        }
-    }
 
+        closeButtons.forEach(
+            function (button) {
 
-    if (closeButton) {
+                button.addEventListener(
+                    "click",
+                    function () {
 
-        closeButton.addEventListener(
-            "click",
-            closeModal
-        );
-    }
+                        modal.remove();
 
+                    }
+                );
 
-    if (closeBottomButton) {
-
-        closeBottomButton.addEventListener(
-            "click",
-            closeModal
-        );
-    }
-
-
-    // --------------------------------------
-    // CLOSE WHEN CLICKING OUTSIDE
-    // --------------------------------------
-
-    modal.addEventListener(
-        "click",
-        function (event) {
-
-            if (event.target === modal) {
-                closeModal();
             }
+        );
 
+
+        // ======================================
+        // CLOSE OUTSIDE MODAL
+        // ======================================
+
+        modal.addEventListener(
+            "click",
+            function (event) {
+
+                if (
+                    event.target === modal
+                ) {
+
+                    modal.remove();
+                }
+
+            }
+        );
+
+
+        // ======================================
+        // CLOSE WITH ESC KEY
+        // ======================================
+
+        function closeWithEscape(
+            event
+        ) {
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                modal.remove();
+
+                document.removeEventListener(
+                    "keydown",
+                    closeWithEscape
+                );
+            }
         }
-    );
 
-}
-   
+
+        document.addEventListener(
+            "keydown",
+            closeWithEscape
+        );
+
+    }
+
+
     // ======================================
     // ESCAPE HTML
     // ======================================
@@ -1466,12 +1648,35 @@ async function showApplicationDetails(application) {
     function escapeHTML(value) {
 
         return String(value)
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-    }    // ======================================
+
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+
+            .replace(
+                /</g,
+                "&lt;"
+            )
+
+            .replace(
+                />/g,
+                "&gt;"
+            )
+
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+    }
+
+
+    // ======================================
     // FORMAT DATE
     // ======================================
 
@@ -1498,6 +1703,6 @@ async function showApplicationDetails(application) {
 
 
         return date.toLocaleString();
-
     }
+
 });
