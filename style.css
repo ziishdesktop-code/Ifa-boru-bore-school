@@ -139,7 +139,7 @@ button:hover {
 .welcome {
     background-image:
         linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
-        url("images/about.jpg");
+        url("images/hero1.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -256,7 +256,7 @@ footer {
     background-color: #003b7a;
     color:white;
     text-align:center;
-    padding:60px20px;
+    padding:60px 20px;
 }
 
 .registration-header h2 {
@@ -546,6 +546,7 @@ input[type="checkbox"] {
 
 /* Responsive design */
 @media (max-width: 768px) {
+
     header {
         padding: 15px 4%;
     }
@@ -554,24 +555,8 @@ input[type="checkbox"] {
         gap: 15px;
     }
 
-    .hero{
-    min-height:650px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    color:white;
-
-    background-image:
-    linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.5)),
-    url("images/hero.jpg");
-
-    background-size:cover;
-    background-position:center;
-
-    transition:background-image 1s ease-in-out;
-}
-
+    .hero {
+        min-height: 650px;
     }
 
     .hero h2 {
@@ -604,6 +589,7 @@ input[type="checkbox"] {
         margin-left: 10px;
         margin-right: 10px;
     }
+}
 
 
 /* Login Page */
@@ -637,13 +623,14 @@ input[type="password"]:focus{
     transform:translateY(-8px);
     box-shadow:0 10px 25px rgba(0,0,0,.2);
 }
+
 /* ========================= */
 /* News Page */
 /* ========================= */
 
 .news {
-    background: #f4f4f4;
     padding: 60px 20px;
+    background: #f4f4f4;
 }
 
 .news h2 {
@@ -655,57 +642,11 @@ input[type="password"]:focus{
 
 .news-card {
     max-width: 900px;
-    margin: 25px auto;
-    background: white;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,.1);
-    transition: .3s;
-}
-
-.news-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 8px 20px rgba(0,0,0,.2);
-}
-
-.news-card h3 {
-    color: #003b7a;
-    margin-bottom: 15px;
-}
-
-.news-card p {
-    color: #555;
-    line-height: 1.7;
-}
-
-.news-date {
-    color: #f5a623;
-    font-weight: bold;
-    margin-bottom: 10px;
-
-
-/* ========================= */
-/* News Page */
-/* ========================= */
-
-.news {
-    padding: 60px 20px;
-    background: #f4f4f4;
-}
-
-.news h2 {
-    text-align: center;
-    color: #003b7a;
-    margin-bottom: 40px;
-}
-
-.news-card {
-    max-width: 900px;
     margin: 20px auto;
     background: white;
     padding: 25px;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     transition: 0.3s;
 }
 
@@ -718,15 +659,17 @@ input[type="password"]:focus{
     margin-bottom: 10px;
 }
 
+.news-card p {
+    color: #555;
+    line-height: 1.7;
+}
+
 .news-date {
-    color: gray;
-    font-size: 14px;
+    color: #f5a623;
+    font-weight: bold;
     margin-bottom: 15px;
 }
 
-
-
-}
 /* ========================= */
 /* School Gallery */
 /* ========================= */
